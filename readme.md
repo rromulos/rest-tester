@@ -12,3 +12,13 @@ PORT=sua_porta_aqui
 API_USERNAME=seu_usuario_aqui
 API_PASSWORD=sua_senha_aqui
 ```
+
+Exemplo oriundo do produtivo
+
+```
+API_PATH=/api/RetornoOrdemWamas/v3/SAPIENS/messages
+PORT=8050
+API_USERNAME=WamasIntegration
+API_PASSWORD=WamasIntegration
+BASE_SYTEM=W5
+```
