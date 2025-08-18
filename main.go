@@ -51,21 +51,38 @@ func main() {
 }
 
 func handleRequest(w http.ResponseWriter, r *http.Request) {
-	body, err := io.ReadAll(r.Body)
-	if err != nil {
-		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(Response{
-			Status:   "erro",
-			Mensagem: "Erro ao ler o corpo da requisição",
-		})
-		return
-	}
 	defer r.Body.Close()
 
-	fmt.Println("Mensagem recebida:", string(body))
+	fmt.Println("Recebendo mensagem...")
+	os.Stdout.Sync()
 
-	// Define resposta em JSON
+	buf := make([]byte, 4096) // lê 4KB por vez
+	for {
+		n, err := r.Body.Read(buf)
+		if n > 0 {
+			fmt.Print(string(buf[:n]))
+			os.Stdout.Sync() // força flush imediato
+		}
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			fmt.Println("\nErro ao ler o corpo da requisição:", err)
+			os.Stdout.Sync()
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusBadRequest)
+			json.NewEncoder(w).Encode(Response{
+				Status:   "erro",
+				Mensagem: "Erro ao ler o corpo da requisição",
+			})
+			return
+		}
+	}
+
+	fmt.Println("\nMensagem recebida completamente.")
+	os.Stdout.Sync()
+
+	// Resposta JSON
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(Response{
