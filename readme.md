@@ -16,9 +16,9 @@ API_PASSWORD=sua_senha_aqui
 Exemplo oriundo do produtivo
 
 ```
-API_PATH=/api/RetornoOrdemWamas/v3/SAPIENS/messages
+API_PATH=/api/RetornoOrdemWamas/v3/HOST/messages
 PORT=8050
-API_USERNAME=WamasIntegration
-API_PASSWORD=WamasIntegration
+API_USERNAME=w5Integration
+API_PASSWORD=w5Integration
 BASE_SYTEM=W5
 ```
